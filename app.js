@@ -10,6 +10,8 @@ const routerCategories = require("./app/api/v1/categories/router");
 const routerImages = require("./app/api/v1/images/router");
 const routerTalents = require("./app/api/v1/talents/router");
 const routerEvents = require("./app/api/v1/events/router");
+const routerOrganizers = require("./app/api/v1/organizers/router");
+const routerAuthCMS = require("./app/api/v1/auth/router");
 
 // !-- middlewares --!
 const notFoundMiddleware = require("./app/middlewares/not-found");
@@ -35,6 +37,8 @@ app.use(v1, routerCategories);
 app.use(v1, routerImages);
 app.use(v1, routerTalents);
 app.use(v1, routerEvents);
+app.use(v1, routerOrganizers);
+app.use(v1, routerAuthCMS);
 
 // gunakan middlewarenya
 app.use(notFoundMiddleware);
