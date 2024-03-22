@@ -6,7 +6,7 @@ const { NotFoundError, BadRequestError } = require("../../errors");
 
 // Menampilkan semua data kategori
 const getAllCategories = async () => {
-  const result = await Categories.find();
+  const result = await Categories.find({ organizer: req.user.organizer });
 
   return result;
 };
@@ -22,7 +22,10 @@ const createCategories = async (req) => {
   if (check) {
     throw new BadRequestError("Kategori nama sudah ada! (duplicated)");
   }
-  const result = await Categories.create({ name });
+  const result = await Categories.create({
+    name,
+    organizer: req.user.organizer,
+  });
 
   return result;
 };
@@ -94,5 +97,5 @@ module.exports = {
   getOneCategories,
   updateCategories,
   deleteCategories,
-  checkingCategories
+  checkingCategories,
 };
