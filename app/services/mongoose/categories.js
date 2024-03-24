@@ -5,7 +5,7 @@ const Categories = require("../../api/v1/categories/model");
 const { NotFoundError, BadRequestError } = require("../../errors");
 
 // Menampilkan semua data kategori
-const getAllCategories = async () => {
+const getAllCategories = async (req) => {
   const result = await Categories.find({ organizer: req.user.organizer });
 
   return result;
@@ -16,7 +16,10 @@ const createCategories = async (req) => {
   const { name } = req.body;
 
   // cari kategori dengan field name
-  const check = await Categories.findOne({ name });
+  const check = await Categories.findOne({
+    name,
+    organizer: req.user.organizer,
+  });
 
   // bila check bernilai true / data categori sudah ada maka kita akan tampilkan error bad request
   if (check) {
@@ -35,6 +38,7 @@ const getOneCategories = async (req) => {
 
   const result = await Categories.findOne({
     _id: id,
+    organizer: req.user.organizer,
   });
 
   if (!result) throw new NotFoundError(`Tidak ada kategori dengan id : ${id}`);
@@ -50,6 +54,7 @@ const updateCategories = async (req) => {
   const check = await Categories.findOne({
     name,
     _id: { $ne: id },
+    organizer: req.user.organizer,
   });
 
   // jika check true / data categories sudah ada,
@@ -74,6 +79,7 @@ const deleteCategories = async (req) => {
 
   const result = await Categories.findOne({
     _id: id,
+    organizer: req.user.organizer,
   });
 
   if (!result) throw new NotFoundError(`Tidak ada kategori dengan id: ${id}`);
@@ -84,7 +90,9 @@ const deleteCategories = async (req) => {
 };
 
 const checkingCategories = async (id) => {
-  const result = await Categories.findOne({ _id: id });
+  const result = await Categories.findOne({
+    _id: id,
+  });
 
   if (!result) throw new NotFoundError(`Tidak ada Kategori dengan id :  ${id}`);
 
