@@ -22,6 +22,8 @@ const create = async (req, res, next) => {
 const index = async (req, res, next) => {
     try {
         const result = await getAllTalents(req);
+        console.log(`result : `);
+        console.log(result);
 
         res.status(StatusCodes.OK).json({
             data: result,

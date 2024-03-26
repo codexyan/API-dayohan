@@ -14,7 +14,7 @@ const ticketCategoriesSchema = new Schema({
         type: Number,
         default: 0,
     },
-    statusTikcetCategories: {
+    statusTicketCategories: {
         type: Boolean,
         enum: [true, false],
         default: true,
@@ -24,7 +24,7 @@ const ticketCategoriesSchema = new Schema({
     },
 });
 
-const eventSchema = Schema(
+const EventSchema = Schema(
     {
         title: {
             type: String,
@@ -74,8 +74,13 @@ const eventSchema = Schema(
             ref: "Talent",
             required: true,
         },
+        organizer: {
+            type: mongoose.Types.ObjectId,
+            ref: "Organizer",
+            required: true,
+        },
     },
     { timestamps: true }
 );
 
-module.exports = model("Events", eventSchema);
+module.exports = model("Event", EventSchema);

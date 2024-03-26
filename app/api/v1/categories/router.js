@@ -8,9 +8,29 @@ const {
 
 // RESTFUL API
 router.get("/categories", authenticateUser, authorizeRoles("organizer"), index);
-router.post("/categories", authenticateUser, create);
-router.get("/categories/:id", authenticateUser, findbasedId);
-router.put("/categories/:id", authenticateUser, update);
-router.delete("/categories/:id", authenticateUser, destroy);
+router.post(
+  "/categories",
+  authenticateUser,
+  authorizeRoles("organizer"),
+  create
+);
+router.get(
+  "/categories/:id",
+  authenticateUser,
+  authorizeRoles("organizer"),
+  findbasedId
+);
+router.put(
+  "/categories/:id",
+  authenticateUser,
+  authorizeRoles("organizer"),
+  update
+);
+router.delete(
+  "/categories/:id",
+  authenticateUser,
+  authorizeRoles("organizer"),
+  destroy
+);
 
 module.exports = router;
