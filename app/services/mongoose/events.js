@@ -6,7 +6,7 @@ const { checkingTalents } = require("./talents");
 const { NotFoundError, BadRequestError } = require("../../errors");
 
 const getAllEvents = async (req) => {
-  const { keyword, category, talent } = req.query;
+  const { keyword, category, talent, status } = req.query;
   let condition = { organizer: req.user.organizer };
 
   if (keyword) {
@@ -19,6 +19,13 @@ const getAllEvents = async (req) => {
 
   if (talent) {
     condition = { ...condition, talent: talent };
+  }
+
+  if (["Draft", "Published"].includes(status)) {
+    condition = {
+      ...condition,
+      statusEvent: status
+    }
   }
 
   const result = await Events.find(condition)
@@ -130,7 +137,7 @@ const updateEvents = async (req) => {
   const check = await Events.findOne({
     title,
     _id: { $ne: id },
-    organizer: req.user.organizer
+    organizer: req.user.organizer,
   });
 
   // apa bila check true / data Events sudah ada maka kita tampilkan error bad request dengan message pembicara duplikat
@@ -177,10 +184,39 @@ const deleteEvents = async (req) => {
   return result;
 };
 
+const changeStatusEvents = async (req) => {
+  const { id } = req.params;
+  const { statusEvent } = req.body;
+
+  if (!["Draft", "Published"].includes(statusEvent)) {
+    throw new BadRequestError("Status harus Draft atau Published");
+  }
+
+  // cari event berdasarkan field id
+  const checkEvent = await Events.findOne({
+    _id: id,
+    organizer: req.user.organizer,
+  });
+
+  console.log('id');
+  console.log(id);
+
+  // jika id result false / null maka akan menampilkan error `Tidak ada acara dengan id` yang dikirim client
+  if (!checkEvent)
+    throw new NotFoundError(`Tidak ada acara dengan id :  ${id}`);
+
+  checkEvent.statusEvent = statusEvent;
+
+  await checkEvent.save();
+
+  return checkEvent;
+};
+
 module.exports = {
   getAllEvents,
   createEvents,
   getOneEvents,
   updateEvents,
-  deleteEvents
+  deleteEvents,
+  changeStatusEvents
 };
