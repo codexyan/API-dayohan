@@ -13,6 +13,7 @@ const routerEvents = require("./app/api/v1/events/router");
 const routerOrganizers = require("./app/api/v1/organizers/router");
 const routerAuthCMS = require("./app/api/v1/auth/router");
 const routerOrders = require("./app/api/v1/orders/router");
+const routerParticipants = require("./app/api/v1/participants/router");
 
 // !-- middlewares --!
 const notFoundMiddleware = require("./app/middlewares/not-found");
@@ -20,7 +21,7 @@ const handleErrorMiddlware = require("./app/middlewares/handler-error");
 // !-- End middlewares --!
 
 // membuat variabel v1
-const v1 = "/api/v1/cms";
+const v1 = "/api/v1";
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -34,13 +35,14 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use(v1, routerCategories);
-app.use(v1, routerImages);
-app.use(v1, routerTalents);
-app.use(v1, routerEvents);
-app.use(v1, routerOrganizers);
-app.use(v1, routerAuthCMS);
-app.use(v1, routerOrders);
+app.use(`${v1}/cms`, routerCategories);
+app.use(`${v1}/cms`, routerImages);
+app.use(`${v1}/cms`, routerTalents);
+app.use(`${v1}/cms`, routerEvents);
+app.use(`${v1}/cms`, routerOrganizers);
+app.use(`${v1}/cms`, routerAuthCMS);
+app.use(`${v1}/cms`, routerOrders);
+app.use(`${v1}`, routerParticipants);
 
 // gunakan middlewarenya
 app.use(notFoundMiddleware);
