@@ -14,6 +14,7 @@ const routerOrganizers = require("./app/api/v1/organizers/router");
 const routerAuthCMS = require("./app/api/v1/auth/router");
 const routerOrders = require("./app/api/v1/orders/router");
 const routerParticipants = require("./app/api/v1/participants/router");
+const routerPayments = require("./app/api/v1/payments/router");
 
 // !-- middlewares --!
 const notFoundMiddleware = require("./app/middlewares/not-found");
@@ -42,6 +43,7 @@ app.use(`${v1}/cms`, routerEvents);
 app.use(`${v1}/cms`, routerOrganizers);
 app.use(`${v1}/cms`, routerAuthCMS);
 app.use(`${v1}/cms`, routerOrders);
+app.use(`${v1}/cms`, routerPayments);
 app.use(`${v1}`, routerParticipants);
 
 // gunakan middlewarenya
