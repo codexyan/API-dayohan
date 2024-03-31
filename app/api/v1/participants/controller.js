@@ -3,7 +3,7 @@ const {
   signupParticipant,
   activateParticipant,
   signinParticipant,
-  getAllEevents,
+  getAllEvents,
   getOneEvent,
   getAllOrders,
   checkoutOrder,
@@ -49,7 +49,7 @@ const signin = async (req, res, next) => {
 
 const getAllLandingPage = async (req, res, next) => {
   try {
-    const result = await getAllEevents(req);
+    const result = await getAllEvents(req);
 
     res.status(StatusCodes.OK).json({
       data: result,
