@@ -108,7 +108,7 @@ const signinParticipant = async (req) => {
     return token;
 };
 
-const getAllEevents = async (req) => {
+const getAllEvents = async (req) => {
     const result = await Events.find({ statusEvent: "Published" })
         .populate("category")
         .populate("image")
@@ -132,7 +132,7 @@ const getOneEvent = async (req) => {
 };
 
 const getAllOrders = async (req) => {
-    console.log(req.Participant);
+    console.log(req.participant);
     const result = await Orders.find({ participant: req.participant.id });
     return result;
 };
@@ -218,7 +218,7 @@ module.exports = {
     signupParticipant,
     activateParticipant,
     signinParticipant,
-    getAllEevents,
+    getAllEvents,
     getOneEvent,
     getAllOrders,
     checkoutOrder,
